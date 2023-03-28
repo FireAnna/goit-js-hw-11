@@ -45,9 +45,9 @@ pageCount++;
 const linkResponse = await axios({
     method: 'get',
     url: `${link}${pageCount}`,
-    responseType: 'stream',
+    responseType: 'json',
 });
-const gallery = JSON.parse(linkResponse.data);
+const gallery = linkResponse.data;
 galleryList.lastChild.querySelector('img').addEventListener('load', event => {
     galleryList.insertAdjacentHTML('beforeend', render(gallery.hits));
     if (gallery.totalHits <= pageCount * 40) {
@@ -67,10 +67,10 @@ const queryLink = `${BASE_LINK}?key=${LINK_KEY}&q=${queryString}&image_type=phot
 const linkResponse = await axios({
     method: 'get',
     url: `${queryLink}${pageCount}`,
-    responseType: 'stream',
+    responseType: 'json',
     });
 
-const gallery = JSON.parse(linkResponse.data);
+const gallery =  linkResponse.data; 
 if (gallery.hits.length === 0) {
     Notify.warning('Sorry, there are no images matching your search query. Please try again.');
     return null;
@@ -96,7 +96,7 @@ form.addEventListener('submit', async e => {
     e.preventDefault();
     pageCount = 1;
     const total = await search(form.searchQuery.value);
-    if (total) Notify.info(`Hooray! We found ${total} images.`);
+if (total) Notify.info(`Hooray! We found ${total} images.`);
 });
 
 galleryList.addEventListener('click', openModal);
